@@ -29,7 +29,7 @@ async function build() {
     }
 
     // 2. Find all .ts and .tsx files
-    const tsFiles = glob.sync('**/*.@(ts|tsx)', {
+    const tsFiles = glob.sync('**/*.{ts,tsx}', {
       cwd: sourceDir,
       ignore: ['node_modules/**', `${outputDir}/**`, 'vite.config.ts'], // Adjust ignore patterns as needed
       nodir: true,
