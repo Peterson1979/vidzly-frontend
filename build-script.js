@@ -1,3 +1,4 @@
+
 const fs = require('fs-extra');
 const replace = require('replace-in-file');
 const path = require('path');
@@ -85,7 +86,7 @@ async function build() {
       await replace(options);
       console.log(`Gemini API key placeholder processed in: ${targetGeminiServicePath}`);
     } else {
-      console.error(`Processed ${targetGeminiServicePath} not found after transpilation. API key injection failed.`);
+      console.error(\`Processed \${targetGeminiServicePath} not found after transpilation. API key injection failed.\`);
     }
 
     console.log('Frontend build successful. Output in ./dist');
