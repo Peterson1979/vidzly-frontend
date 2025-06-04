@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { SocialSharePlatform } from './types'; // Category type import removed
+import { SocialSharePlatform } from './types'; 
 
 export const APP_NAME = "Vidzly";
 export const VIDZLY_APP_URL = typeof window !== 'undefined' ? window.location.origin : 'https://vidzly.example.com';
@@ -18,16 +18,10 @@ export const VidzlyLogoSVG = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-// DEFAULT_CATEGORIES removed
-// PRIORITY_CATEGORY_ORDER removed
-
-
 export const ROUTES = {
   HOME: '/',
   VIDEO_DETAIL_BASE: '/video/',
   VIDEO_DETAIL: '/video/:id', // YouTube video ID will be used here
-  // CATEGORY_FEED_BASE removed
-  // CATEGORY_FEED removed
   FAVORITES: '/favorites',
   SETTINGS: '/settings',
   SUBSCRIPTION: '/subscription',
@@ -181,22 +175,19 @@ export const SOCIAL_SHARE_PLATFORMS: SocialSharePlatform[] = [
 ];
 
 export const LOCAL_STORAGE_KEYS = {
-  USER_SETTINGS: 'vidzlyApp_userSettings_v4_youtube_trending', // Updated key version for new notification settings
+  USER_SETTINGS: 'vidzlyApp_userSettings_v4_youtube_trending', 
   FAVORITE_VIDEOS: 'vidzlyApp_favoriteVideos_v2_youtube', 
   PREMIUM_BANNER_DISMISSED: 'vidzlyApp_premiumBannerDismissed_v2_youtube', 
 };
 
 export const PLACEHOLDER_THUMBNAIL = 'https://via.placeholder.com/480x360.png?text=Video+Loading...';
 export const FEED_VIDEO_FETCH_LIMIT = 10; 
-export const HOME_SCREEN_CATEGORY_VIDEO_LIMIT = 7; // This might be repurposed for initial trending load, or just use FEED_VIDEO_FETCH_LIMIT
 export const HOME_SCREEN_PAGINATION_LIMIT = 5; // Used for pagination on home screen for trending videos.
-// NAV_CATEGORIES_MOBILE_LIMIT removed
-// NAV_CATEGORIES_DESKTOP_LIMIT removed
 
 export const BACKEND_BASE_URL = 'https://vidzly-backend.vercel.app'; 
 // For local dev with the new simple backend:
 // export const BACKEND_BASE_URL = 'http://localhost:3001'; 
                                                           
 export const DEFAULT_YOUTUBE_REGION_CODE = 'US';
-export const AD_BANNER_HEIGHT_PX = 48; // h-12 -> 3rem -> 48px (for calculation in JS if needed)
-export const BOTTOM_NAV_HEIGHT_PX = 64; // h-16 -> 4rem -> 64px
+export const AD_BANNER_HEIGHT_PX = 48; 
+export const BOTTOM_NAV_HEIGHT_PX = 64;
