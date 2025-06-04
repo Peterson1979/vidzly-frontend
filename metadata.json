@@ -1,0 +1,6 @@
+{
+  "name": "Vidzly",
+  "description": "A client-side React application for discovering trending and categorized videos from YouTube. Features include favorites and a responsive video player. Experience endless scrolling video feeds tailored to your interests.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
