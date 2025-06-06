@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Navbar } from './components/Navbar';
+import { Navbar } from '@/components/Navbar';
 import { VideoCard } from './components/VideoCard';
 import { SkeletonVideoCard } from './components/SkeletonVideoCard';
 import { AdBanner } from './components/AdBanner';
