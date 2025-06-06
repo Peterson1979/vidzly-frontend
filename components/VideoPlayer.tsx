@@ -1,50 +1,58 @@
+
 import React from 'react';
-import { Video, VideoPlatform } from '../types';
+import ReactPlayer from 'react-player/youtube'; // Only import YouTube for bundle size
 
 interface VideoPlayerProps {
-  video: Video;
+  url: string;
+  isPlaying: boolean;
+  onReady?: () => void;
+  onEnded?: () => void;
+  onPlay?: () => void;
+  onPause?: () => void;
+  width?: string;
+  height?: string;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ video }) => {
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error(`Error loading video in VideoPlayer: ${video.videoUrl}`, e);
-    // Here you could set a state to show a user-friendly error message
-    // on the player itself if desired.
-  };
-
+export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({ 
+  url, 
+  isPlaying, 
+  onReady, 
+  onEnded,
+  onPlay,
+  onPause,
+  width = '100%', 
+  height = '100%' 
+}) => {
   return (
-    <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-xl">
-      {video.platform === VideoPlatform.YOUTUBE || video.platform === VideoPlatform.VIMEO ? (
-        <iframe
-          src={video.videoUrl}
-          title={video.title}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          className="w-full h-full"
-        ></iframe>
-      ) : video.platform === VideoPlatform.LOCAL ? (
-        <video
-          src={video.videoUrl}
-          controls
-          className="w-full h-full bg-black"
-          poster={video.thumbnailUrl}
-          preload="metadata"
-          aria-label={video.title}
-          onError={handleVideoError}
-        >
-          Your browser does not support the video tag. Video source: {video.videoUrl}
-        </video>
-      ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gray-700 text-white p-4">
-          <p className="text-center">
-            Unsupported video platform: {video.platform}. <br/>
-            Video URL: {video.videoUrl}
-          </p>
+    <div className="relative aspect-video bg-black rounded-t-lg overflow-hidden group">
+      <ReactPlayer
+        url={url}
+        playing={isPlaying}
+        controls
+        width={width}
+        height={height}
+        className="absolute top-0 left-0"
+        onReady={onReady}
+        onEnded={onEnded}
+        onPlay={onPlay}
+        onPause={onPause}
+        config={{
+          youtube: { // Correctly nest playerVars under youtube
+            playerVars: { 
+              showinfo: 0, 
+              modestbranding: 1,
+              rel: 0, 
+            }
+          }
+        }}
+      />
+       {!isPlaying && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 group-hover:bg-opacity-20 dark:bg-opacity-60 dark:group-hover:bg-opacity-40 transition-opacity duration-300 pointer-events-none">
+          <svg className="w-16 h-16 text-white opacity-80 group-hover:opacity-100 transform group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
         </div>
       )}
     </div>
   );
-};
-
-export default VideoPlayer;
+});

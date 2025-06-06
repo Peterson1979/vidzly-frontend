@@ -1,6 +1,6 @@
 {
-  "name": "Vidzly",
-  "description": "A client-side React application for discovering trending and categorized videos from YouTube. Features include favorites and a responsive video player. Experience endless scrolling video feeds tailored to your interests.",
+  "name": "Vidzly.AI",
+  "description": "Vidzly.AI is a modern web application for discovering and watching popular YouTube videos, enhanced with AI-powered insights from Gemini. It features continuous scrolling, autoplay, search, and subscription options for an ad-free experience.",
   "requestFramePermissions": [],
   "prompt": ""
 }

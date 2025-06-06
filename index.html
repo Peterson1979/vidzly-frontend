@@ -1,78 +1,54 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vidzly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Vidzly.AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                DEFAULT: '#4F46E5', // Indigo 600
-                light: '#6366F1', // Indigo 500
-                dark: '#3730A3',  // Indigo 700
-              },
-              secondary: '#EC4899', // Pink 500
-              background: 'var(--color-background)',
-              foreground: 'var(--color-foreground)',
-              card: 'var(--color-card)',
-              'card-foreground': 'var(--color-card-foreground)',
-              muted: 'var(--color-muted)',
-              'muted-foreground': 'var(--color-muted-foreground)',
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-          },
-        },
-      }
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      :root {
-        --color-background: #FFFFFF; /* Light mode background */
-        --color-foreground: #1F2937; /* Light mode text */
-        --color-card: #FFFFFF; /* Light mode card */
-        --color-card-foreground: #1F2937; /* Light mode card text */
-        --color-muted: #F3F4F6; /* Light mode muted background */
-        --color-muted-foreground: #6B7280; /* Light mode muted text */
-      }
-      .dark {
-        --color-background: #111827; /* Dark mode background (Gray 900) */
-        --color-foreground: #F3F4F6; /* Dark mode text (Gray 200) */
-        --color-card: #1F2937; /* Dark mode card (Gray 800) */
-        --color-card-foreground: #F3F4F6; /* Dark mode card text (Gray 200) */
-        --color-muted: #374151; /* Dark mode muted background (Gray 700) */
-        --color-muted-foreground: #9CA3AF; /* Dark mode muted text (Gray 400) */
-      }
-      body {
-        background-color: var(--color-background);
-        color: var(--color-foreground);
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
-    </style>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox='0%200%20100%20100'%20xmlns='http://www.w3.org/2000/svg'%3E%3Crect%20width='100'%20height='100'%20fill='white'/%3E%3Crect%20x='15'%20y='15'%20width='70'%20height='70'%20rx='15'%20ry='15'%20fill='red'/%3E%3Cpath%20d='M%2042.3%2030.2%20Q%2039%2028%2039%2032%20L%2039%2068%20Q%2039%2072%2042.3%2069.8%20L%2068.7%2052.2%20Q%2072%2050%2068.7%2047.8%20Z'%20fill='white'/%3E%3C/svg%3E" />
   <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^18.2.0",
-    "react-dom/": "https://esm.sh/react-dom@^18.2.0/",
-    "react/": "https://esm.sh/react@^18.2.0/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^6.25.1",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react-player/": "https://esm.sh/react-player@^2.16.0/",
     "@google/genai": "https://esm.sh/@google/genai@^1.3.0"
   }
 }
 </script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // or 'media'
+      theme: {
+        extend: {
+          colors: {
+            'brand-orange': '#F97316',
+            'primary-light': '#FFFFFF',
+            'secondary-light': '#F3F4F6', // gray-100
+            'text-light': '#1F2937', // gray-800
+            'primary-dark': '#111827', // gray-900
+            'secondary-dark': '#1F2937', // gray-800
+            'text-dark': '#F3F4F6', // gray-100
+          },
+          transformOrigin: {
+            '0': '0%',
+          },
+          zIndex: {
+            '60': '60', // BottomNavbar
+            '70': '70', // SubscriptionModal
+            '80': '80', // For other high-level modals/dropdowns, Search Overlay
+            '90': '90'  // For notifications
+          }
+        }
+      }
+    }
+  </script>
+<link rel="stylesheet" href="/index.css">
 </head>
-  <body>
+  <body class="bg-secondary-light dark:bg-primary-dark transition-colors duration-300 text-base">
     <div id="root"></div>
-    <script type="module" src="/index.js"></script>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

@@ -1,68 +1,66 @@
 
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import { GEMINI_MODEL_TEXT, GEMINI_API_KEY_PLACEHOLDER, MOCK_API_DELAY } from '../constants';
 
-// IMPORTANT: API Key Management
-// The API key MUST be set as an environment variable `process.env.API_KEY`.
-// This client-side code assumes `process.env.API_KEY` is made available
-// during the build process (e.g., via Vite's `import.meta.env.VITE_API_KEY`
-// or a similar mechanism if this were a typical Vite setup, or Webpack's DefinePlugin).
-// For this specific environment, we directly check `process.env.API_KEY`.
-// DO NOT embed the API key directly in the code.
-// The application MUST NOT prompt the user for the API key.
-
-const API_KEY = AIzaSyBDb5keY8-YdEA6M6i-Zl19RJ6kpkfx9aA;
+// Attempt to use environment variable for API key.
+// The `process.env.API_KEY` is expected to be set in the execution environment.
+const API_KEY = typeof process !== 'undefined' && process.env && process.env.API_KEY 
+                ? process.env.API_KEY 
+                : GEMINI_API_KEY_PLACEHOLDER;
 
 let ai: GoogleGenAI | null = null;
-if (API_KEY) {
-  ai = new GoogleGenAI({ apiKey: API_KEY });
+
+if (API_KEY && API_KEY !== GEMINI_API_KEY_PLACEHOLDER) {
+  try {
+    ai = new GoogleGenAI({ apiKey: API_KEY });
+  } catch (error) {
+    console.error("Failed to initialize GoogleGenAI. Check API key and network.", error);
+    ai = null; 
+  }
 } else {
-  console.warn("Gemini API key (process.env.API_KEY) is not configured. AI features will be disabled.");
+  if (API_KEY === GEMINI_API_KEY_PLACEHOLDER) {
+     console.warn("Gemini API key is a placeholder. Gemini features will be mocked.");
+  } else {
+     console.warn("Gemini API key not found. Gemini features will be mocked.");
+  }
 }
 
-export const generateTagsForVideo = async (title: string, description?: string): Promise<string[] | null> => {
+export const getVideoSummary = async (title: string, description: string): Promise<string> => {
   if (!ai) {
-    console.error("Gemini AI client not initialized. API Key might be missing.");
-    return null;
+    // Mock response if API key is not available or initialization failed
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(`This is a mock AI summary for "${title}". Key points: This video seems to be about ${description.substring(0,50)}... It likely offers engaging content, potentially high production value, and a clear message. Viewers often find this type of video informative and entertaining.`);
+      }, MOCK_API_DELAY / 2); // Faster mock for summaries
+    });
   }
 
-  const prompt = `Generate 5-7 relevant, concise, comma-separated tags for a video with the following details. Output only the tags, separated by commas.
-Title: ${title}
-Description: ${description || 'No description provided.'}
-
-Tags:`;
-
   try {
+    const prompt = `Provide a concise, engaging summary (2-3 sentences, max 150 characters) for a YouTube video titled "${title}" with description: "${description}". Highlight its key appeal or what a viewer can expect.`;
+    
     const response: GenerateContentResponse = await ai.models.generateContent({
-      model: "gemini-2.5-flash-preview-04-17", // Use the specified model
-      contents: prompt,
-      config: {
-        temperature: 0.5,
-        topK: 32,
-        topP: 0.9,
-        // For this type of task, disabling thinking might be okay for speed.
-        // For higher quality or more complex generation, omit thinkingConfig or set a budget.
-        thinkingConfig: { thinkingBudget: 0 } 
-      }
+        model: GEMINI_MODEL_TEXT,
+        contents: prompt,
+        // config: { temperature: 0.7 } // Example config, adjust as needed
     });
 
-    const textResponse = response.text;
-    if (!textResponse) {
-      console.error("Gemini API returned an empty response.");
-      return null;
+    let summaryText = response.text;
+    
+    // Clean up potential markdown fences if responseMimeType was accidentally set to json elsewhere (though not here)
+    const fenceRegex = /^```(\w*)?\s*\n?(.*?)\n?\s*```$/s;
+    const match = summaryText.match(fenceRegex);
+    if (match && match[2]) {
+      summaryText = match[2].trim();
     }
 
-    // Clean up the response: split by comma, trim whitespace, filter empty tags
-    const tags = textResponse
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0);
-    
-    return tags;
+    return summaryText.trim();
 
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
-    // You could inspect the error type here for more specific messages
-    // e.g. if (error instanceof GoogleGenAIError) { ... }
-    return null;
+    console.error("Error fetching summary from Gemini:", error);
+    // Provide a more specific error message or fallback
+    if (error instanceof Error && error.message.includes("API key not valid")) {
+         return `Could not generate summary: Invalid Gemini API Key. Please check your configuration.`;
+    }
+    return `AI summary unavailable for "${title}" due to an error.`;
   }
 };

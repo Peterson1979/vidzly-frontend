@@ -1,14 +1,39 @@
 {
-  "name": "vidzly-frontend",
-  "version": "1.0.0",
+  "name": "vidzly.ai",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "node ./build-script.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/genai": "^1.3.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-player": "^2.16.0"
   },
   "devDependencies": {
-    "fs-extra": "^11.2.0",
-    "replace-in-file": "^7.1.0",
-    "esbuild": "^0.20.0",
-    "glob": "^10.3.10"
-  }
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^4.5.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8",
+    "typescript": "~5.7.2",
+    "vite": "^6.3.5"
+  },
+  "description": "This contains everything you need to run your app locally.",
+  "main": "build-script.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peterson1979/vidzly-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Peterson1979/vidzly-frontend/issues"
+  },
+  "homepage": "https://github.com/Peterson1979/vidzly-frontend#readme"
 }

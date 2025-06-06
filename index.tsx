@@ -1,9 +1,16 @@
-
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { HashRouter } from 'react-router-dom';
-import { ThemeProvider } from './hooks/useTheme';
+import { SubscriptionProvider } from './contexts/SubscriptionContext';
+import { VideoPlayerProvider } from './contexts/VideoPlayerContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { FavoritesProvider } from './contexts/FavoritesContext';
+import { LogoProvider } from './contexts/LogoContext';
+import { SavedProvider } from './contexts/SavedContext'; // Renamed from WatchLaterProvider
+import { BadgesProvider } from './contexts/BadgesContext';
+import { NotificationCenterProvider } from './contexts/NotificationCenterContext';
+import { ViewHistoryProvider } from './contexts/ViewHistoryContext';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -13,10 +20,24 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <HashRouter>
-      <ThemeProvider>
-          <App />
-      </ThemeProvider>
-    </HashRouter>
+    <ThemeProvider>
+      <LogoProvider>
+        <SubscriptionProvider>
+          <VideoPlayerProvider>
+            <BadgesProvider>
+              <FavoritesProvider>
+                <SavedProvider> {/* Renamed from WatchLaterProvider */}
+                  <NotificationCenterProvider>
+                    <ViewHistoryProvider> 
+                      <App />
+                    </ViewHistoryProvider>
+                  </NotificationCenterProvider>
+                </SavedProvider> {/* Renamed from WatchLaterProvider */}
+              </FavoritesProvider>
+            </BadgesProvider>
+          </VideoPlayerProvider>
+        </SubscriptionProvider>
+      </LogoProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
